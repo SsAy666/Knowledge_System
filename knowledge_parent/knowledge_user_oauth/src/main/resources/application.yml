@@ -1,0 +1,87 @@
+server:
+  port: 3398
+spring:
+  application:
+    name: knowledge-user
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/knowledge_node_system_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      #url: jdbc:mysql://121.4.182.177:3306/knowledge_node_system_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      username: root
+      password: 123456
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
+    driver-class-name: com.mysql.jdbc.Driver
+  main:
+    allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:3399/eureka
+  instance:
+    prefer-ip-address: true
+feign:
+  hystrix:
+    command:
+      default:
+        execution:
+          isolation:
+            thread:
+              timeoutInMilliseconds: 5000  #熔断超时时间
+  ribbon:
+    ReadTimeout: 60000  #请求处理的超时时间
+    ConnectTimeout: 60000 #请求连接超时时间
+    MaxAutoRetries: 0 #对当前实例的重试次数
+    MaxAutoRetriesNextServer: 1 #切换实例的重试次数 1
+    eureka:
+      enabled: false
+
+  client:
+    config:
+      default:                # 配置全局的feign的调用超时时间，如果有指定的服务配置，默认的配置不会生效
+        connectTimeout: 60000 # 指定的是消费者连接服务提供者的连接超时时间（单位是毫秒）
+        readTimeout: 20000    # 指定的是调用服务提供者的服务的超时时间（单位是毫秒）
+  eureka:
+    enable: true
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.knowledge.entity
+  global-config:
+    #数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: ID_WORKER
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+    banner: false
+  #原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+    #控制台打印执行的SQL语句（需要时开）
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

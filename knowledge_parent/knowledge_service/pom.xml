@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>knowledge_service_tree</module>
-        <module>knowledge_service_user</module>
     </modules>
 
     <dependencies>

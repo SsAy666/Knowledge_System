@@ -1,5 +1,6 @@
 package com.knowledge.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.knowledge.dao.KnowledgeTreeDao;
 import com.knowledge.entity.KnowledgeTreeEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,7 @@ import com.knowledge.service.KnowledgeTreeService;
 @Slf4j
 @Transactional
 @Service
-public class KnowledgeTreeServiceImpl extends BaseServiceImpl<KnowledgeTreeDao, KnowledgeTreeEntity> implements KnowledgeTreeService {
+public class KnowledgeTreeServiceImpl extends ServiceImpl<KnowledgeTreeDao, KnowledgeTreeEntity> implements KnowledgeTreeService {
 
 }
 
