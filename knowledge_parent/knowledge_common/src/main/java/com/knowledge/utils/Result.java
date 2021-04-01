@@ -1,12 +1,15 @@
 package com.knowledge.utils;
 
+import com.alibaba.fastjson.annotation.JSONType;
 import com.knowledge.exception.ErrorCode;
+import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * 响应数据
  */
+@JSONType(orders={"code","msg","data"})
 public class Result<T> implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
@@ -23,6 +26,12 @@ public class Result<T> implements Serializable {
     private T data;
 
     public Result(){
+    }
+
+    public Result(int code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
     }
 
     public Result<T> ok(T data) {
@@ -66,6 +75,10 @@ public class Result<T> implements Serializable {
         this.code = ErrorCode.INTERNAL_SERVER_ERROR;
         this.msg = msg;
         return this;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public int getCode() {
