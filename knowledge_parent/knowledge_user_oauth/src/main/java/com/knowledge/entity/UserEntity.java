@@ -21,7 +21,7 @@ public class UserEntity implements Serializable {
     private Integer id;
 
     // 用户名
-    private String name;
+    private String username;
 
     // 密码
     private String password;

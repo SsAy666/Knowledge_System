@@ -77,7 +77,7 @@ public class AdminServiceImpl extends ServiceImpl<UserDao, UserEntity> implement
      */
     @Override
     public List<UserRoleDTO> queryUser(UserEntity userEntity) {
-        List<UserRoleDTO> userRoleDTOS = userDao.queryUser(userEntity.getName());
+        List<UserRoleDTO> userRoleDTOS = userDao.queryUser(userEntity.getUsername());
         return userRoleDTOS;
     }
 }

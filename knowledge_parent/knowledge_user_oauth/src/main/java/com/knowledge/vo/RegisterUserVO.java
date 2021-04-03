@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 public class RegisterUserVO {
 
     @NotNull(message = "人员名称不能为空")
-    private String name;
+    private String username;
 
     @NotNull(message = "密码不能为空")
     private String password;

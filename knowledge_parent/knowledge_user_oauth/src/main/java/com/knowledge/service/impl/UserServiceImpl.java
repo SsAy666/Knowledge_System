@@ -40,9 +40,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     }
 
     @Override
-    public UserEntity queryByName(String name) {
+    public UserEntity queryByName(String username) {
         QueryWrapper<UserEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("name", name);
+        queryWrapper.eq("username", username);
         UserEntity userEntity = userDao.selectOne(queryWrapper);
         return userEntity;
     }
@@ -50,7 +50,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     @Override
     public void registerUser(RegisterUserVO registerUserVO) {
         // 查数据库看用户名是否存在
-        UserEntity userDB = queryByName(registerUserVO.getName());
+        UserEntity userDB = queryByName(registerUserVO.getUsername());
         if (userDB != null) {
             throw new RenException("注册失败，该用户名已存在！");
         }
