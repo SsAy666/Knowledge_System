@@ -1,5 +1,6 @@
 package com.knowledge.config;
 
+import com.knowledge.filter.JwtAuthorizationTokenFilter;
 import com.knowledge.filter.MyAuthenticationFilter;
 import com.knowledge.handler.*;
 import com.knowledge.service.impl.auth.CustomUserDetailsService;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
@@ -43,11 +45,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyLogoutSuccessHandler myLogoutSuccessHandler;
 
+    @Autowired
+    JwtAuthorizationTokenFilter authenticationTokenFilter;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        // 添加token过滤器
+        http.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                //处理异常情况：用户未登录和权限不足
+                .exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).accessDeniedHandler(myAccessDeniedHandler);
         //开启跨域(前后端分离用)
-        http.cors().and().csrf().disable().authorizeRequests()
+        http.cors().and().csrf().disable()
+                // 不使用session，此策略使得每次请求都要自行处理权限问题（往SecurityContextHolder.context中添加和查询Authentication）
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().authorizeRequests()
                 //处理跨域请求中的Preflight请求
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(HttpMethod.POST,"/user/login").permitAll()
@@ -58,8 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 访问需要登录才能访问的页面，如果未登录，会跳转到该地址来
 //                .loginPage("/authentication/login")
                 .loginProcessingUrl("/login");
-        //处理异常情况：用户未登录和权限不足
-        http.exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).accessDeniedHandler(myAccessDeniedHandler);
+
         //退出登录
         http.logout().logoutSuccessHandler(myLogoutSuccessHandler).permitAll();
         //自定义过滤器

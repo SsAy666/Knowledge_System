@@ -5,7 +5,7 @@
 
     <select id="queryUser" resultType="com.knowledge.dto.UserRoleDTO">
         SELECT
-        a.name,
+        a.username,
         b.role_id as roleId,
         b.user_id as userId,
         c.role_name as roleName,
@@ -16,8 +16,8 @@
         LEFT JOIN tb_user_role b ON a.id= b.user_id
         LEFT JOIN tb_role c ON c.id= b.role_id
         where a.deleted=0
-        <if test="name != null and name.length > 0">
-            and a.name LIKE "%"#{name}"%"
+        <if test="username != null and username.length > 0">
+            and a.username = #{username}
         </if>
         ORDER BY
         a.create_time DESC

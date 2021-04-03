@@ -1,5 +1,9 @@
 server:
   port: 3398
+jwt:
+  token: token         # http header里token所在的字段名
+  expiration: 7200000  # token有效期
+  secret: secret       # 用于生成token的密钥
 spring:
   application:
     name: knowledge-user

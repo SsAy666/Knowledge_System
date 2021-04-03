@@ -1,8 +1,11 @@
 package com.knowledge.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.knowledge.utils.JwtTokenUtil;
 import com.knowledge.utils.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -20,6 +23,7 @@ import java.io.IOException;
 @Component
 @Slf4j
 public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
+
     // 登录成功时，用来判断是返回json数据还是跳转html页面
     public static final String RETURN_TYPE = "json";
 
@@ -28,12 +32,13 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("退出登录成功");
-        log.info("username=>" + request.getParameter("username"));
+        log.info("username=>" + authentication.getName());
+
         if(RETURN_TYPE.equals("html")) {
             redirectStrategy.sendRedirect(request, response, "/user/logout");
         } else {
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(JSON.toJSONString(new Result<Authentication>(200,"退出登录成功",authentication)));
+            response.getWriter().write(JSON.toJSONString(new Result<Authentication>(200,"退出登录成功",authentication), SerializerFeature.WriteMapNullValue));
         }
     }
 }

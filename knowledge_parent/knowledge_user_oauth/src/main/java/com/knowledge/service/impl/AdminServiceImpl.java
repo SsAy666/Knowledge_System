@@ -45,7 +45,7 @@ public class AdminServiceImpl extends ServiceImpl<UserDao, UserEntity> implement
     @Override
     public void addUser(AddUserVO addUserVO) {
         // 查数据库看用户名是否存在
-        UserEntity userDB = userService.queryByName(addUserVO.getName());
+        UserEntity userDB = userService.queryByName(addUserVO.getUsername());
         if (userDB != null) {
             throw new RenException("该用户名已存在，请重新输入！");
         }

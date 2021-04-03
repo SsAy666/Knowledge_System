@@ -36,7 +36,7 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
         } else {
             response.setContentType("application/json;charset=UTF-8");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().write(JSON.toJSONString(new Result<>(403,"未登录",null),SerializerFeature.WriteMapNullValue));
+            response.getWriter().write(JSON.toJSONString(new Result<>(403,"未登录，请前往登录！",null),SerializerFeature.WriteMapNullValue));
         }
     }
 }

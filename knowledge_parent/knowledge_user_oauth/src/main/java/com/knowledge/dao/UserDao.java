@@ -15,8 +15,8 @@ public interface UserDao extends BaseDao<UserEntity> {
 
     /**
      * 管理员查询用户
-     * @param name 用户名
+     * @param username 用户名
      * @return
      */
-    List<UserRoleDTO> queryUser(@Param("name") String name);
+    List<UserRoleDTO> queryUser(@Param("username") String username);
 }

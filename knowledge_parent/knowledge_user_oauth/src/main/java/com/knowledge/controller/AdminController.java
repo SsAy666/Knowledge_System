@@ -16,7 +16,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin")
-//@CrossOrigin
 @Slf4j
 public class AdminController {
     @Autowired

@@ -2,7 +2,6 @@ package com.knowledge.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.knowledge.entity.UserEntity;
-import com.knowledge.vo.AddUserVO;
 import com.knowledge.vo.RegisterUserVO;
 
 /**
@@ -29,5 +28,4 @@ public interface UserService extends IService<UserEntity> {
      * @return
      */
     void registerUser(RegisterUserVO registerUserVO);
-
 }

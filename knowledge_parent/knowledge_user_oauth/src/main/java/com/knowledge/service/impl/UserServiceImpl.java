@@ -8,14 +8,12 @@ import com.knowledge.entity.UserEntity;
 import com.knowledge.entity.UserRoleEntity;
 import com.knowledge.exception.RenException;
 import com.knowledge.service.UserService;
-import com.knowledge.vo.AddUserVO;
 import com.knowledge.vo.RegisterUserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 /**
  * 用户业务接口实现类

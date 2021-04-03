@@ -6,7 +6,7 @@ import lombok.Data;
 public class UserRoleDTO {
 
     // 用户名
-    private String name;
+    private String username;
 
     // 角色ID
     private Integer roleId;

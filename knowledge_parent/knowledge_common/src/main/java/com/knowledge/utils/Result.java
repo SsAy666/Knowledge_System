@@ -39,10 +39,6 @@ public class Result<T> implements Serializable {
         return this;
     }
 
-    public Result<T> ok(T data,String reportId) {
-        this.setData(data);
-        return this;
-    }
 
     public Result<T> success(String msg) {
         this.msg = msg;
