@@ -80,8 +80,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // 设置拦截忽略文件夹，可以对静态资源放行
-        web.ignoring().antMatchers("/css/**", "/js/**");
+        web.ignoring().antMatchers("/css/**", "/js/**")
+                .antMatchers("/index.html", "/static/**", "/login_p", "/favicon.ico")
+                // 给 swagger 放行；不需要权限能访问的资源
+                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/images/**", "/webjars/**", "/v2/**", "/configuration/ui", "/configuration/security");
     }
+
+    /*@Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+                .antMatchers("/swagger-ui.html")
+                .antMatchers("/v2/**")
+                .antMatchers("/swagger-resources/**");
+    }*/
 
     @Bean
     MyAuthenticationFilter myAuthenticationFilter() throws Exception {

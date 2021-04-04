@@ -5,6 +5,8 @@ import com.knowledge.entity.UserEntity;
 import com.knowledge.service.AdminService;
 import com.knowledge.utils.Result;
 import com.knowledge.vo.AddUserVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 @Slf4j
+@Api(tags = "管理员接口")
 public class AdminController {
     @Autowired
     private AdminService adminService;
@@ -26,6 +29,7 @@ public class AdminController {
      * @param addUserVO 添加用户参数信息VO
      * @return
      */
+    @ApiOperation(value = "管理员新增用户接口", notes = "管理员新增用户接口")
     @PostMapping("/addUser")
     public Result addUser(@RequestBody AddUserVO addUserVO){
         adminService.addUser(addUserVO);
@@ -37,6 +41,7 @@ public class AdminController {
      * @param userEntity 用户参数信息
      * @return
      */
+    @ApiOperation(value = "管理员查询用户接口", notes = "管理员查询用户接口")
     @PostMapping("/queryUser")
     public Result queryUser(@RequestBody UserEntity userEntity){
         List<UserRoleDTO> users = adminService.queryUser(userEntity);
@@ -48,9 +53,9 @@ public class AdminController {
      * @param addUserVO 添加用户参数信息VO
      * @return
      */
-    @PostMapping("/delUser")
+    /*@PostMapping("/delUser")
     public Result delUser(@RequestBody AddUserVO addUserVO){
         adminService.addUser(addUserVO);
         return new Result().ok("添加用户成功！");
-    }
+    }*/
 }

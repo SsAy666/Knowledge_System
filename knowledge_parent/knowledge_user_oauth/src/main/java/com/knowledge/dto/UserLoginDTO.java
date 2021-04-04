@@ -1,16 +1,21 @@
 package com.knowledge.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
+/**
+ * 用户登录接口响应参数
+ */
 @Data
+@ApiModel("用户登录接口响应参数")
 public class UserLoginDTO {
 
     // 用户名
+    @ApiModelProperty(value = "用户名")
     private String username;
 
     // 用户ID

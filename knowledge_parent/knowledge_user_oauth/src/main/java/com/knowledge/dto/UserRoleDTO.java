@@ -1,8 +1,13 @@
 package com.knowledge.dto;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+/**
+ * 用户角色接口响应参数
+ */
 @Data
+@ApiModel("用户角色接口响应参数")
 public class UserRoleDTO {
 
     // 用户名
