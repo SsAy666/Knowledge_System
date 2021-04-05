@@ -49,7 +49,7 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
                 msg = "登录失败!";
             }
             response.setContentType("application/json;charset=UTF-8");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().write(JSON.toJSONString(new Result<>(401,msg,null), SerializerFeature.WriteMapNullValue));
         }
     }

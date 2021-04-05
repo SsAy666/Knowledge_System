@@ -1,5 +1,7 @@
 package com.knowledge.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.knowledge.dao.UserDao;
 import com.knowledge.dao.UserRoleDao;
@@ -10,6 +12,7 @@ import com.knowledge.exception.RenException;
 import com.knowledge.service.AdminService;
 import com.knowledge.service.UserService;
 import com.knowledge.vo.AddUserVO;
+import com.knowledge.vo.UpdateUserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,5 +82,47 @@ public class AdminServiceImpl extends ServiceImpl<UserDao, UserEntity> implement
     public List<UserRoleDTO> queryUser(UserEntity userEntity) {
         List<UserRoleDTO> userRoleDTOS = userDao.queryUser(userEntity.getUsername());
         return userRoleDTOS;
+    }
+
+    /**
+     * 管理员删除用户
+     * @param userId 用户ID
+     * @return
+     */
+    @Override
+    public void delUser(Integer userId) {
+        // 删除用户表中该用户的信息
+        userDao.deleteById(userId);
+        // 删除用户-角色表中该用户的信息
+        QueryWrapper<UserRoleEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id",userId);
+        userRoleDao.delete(wrapper);
+    }
+
+    /**
+     * 管理员修改用户
+     * @param updateUserVO 修改用户参数信息VO
+     * @return
+     */
+    @Override
+    public void updateUser(UpdateUserVO updateUserVO) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(updateUserVO.getUserId());
+        userEntity.setUsername(updateUserVO.getUsername());
+        // 设置用户角色信息
+        UserRoleEntity userRoleEntity = new UserRoleEntity();
+        userRoleEntity.setRoleId(updateUserVO.getRoleId());
+        // 保存用户信息和用户角色信息
+        if (!this.updateById(userEntity)) {
+            log.info("更新用户表信息失败");
+            throw new RenException("更新失败！");
+        }
+        UpdateWrapper<UserRoleEntity> wrapper = new UpdateWrapper<>();
+        wrapper.eq("user_id",userEntity.getId());
+        wrapper.set("role_id",updateUserVO.getRoleId());
+        if (userRoleDao.update(userRoleEntity,wrapper) == 0) {
+            log.info("更新用户角色表信息失败");
+            throw new RenException("更新失败！");
+        }
     }
 }

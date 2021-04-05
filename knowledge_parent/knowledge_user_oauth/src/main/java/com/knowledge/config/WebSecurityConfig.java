@@ -86,14 +86,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/images/**", "/webjars/**", "/v2/**", "/configuration/ui", "/configuration/security");
     }
 
-    /*@Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/swagger-ui.html")
-                .antMatchers("/v2/**")
-                .antMatchers("/swagger-resources/**");
-    }*/
-
     @Bean
     MyAuthenticationFilter myAuthenticationFilter() throws Exception {
         MyAuthenticationFilter filter = new MyAuthenticationFilter();
