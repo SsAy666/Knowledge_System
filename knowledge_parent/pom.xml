@@ -12,7 +12,7 @@
         <module>knowledge_eureka</module>
         <module>knowledge_common</module>
         <module>knowledge_common_db</module>
-        <module>knowledge_service</module>
+        <module>knowledge_point_manage</module>
         <module>knowledge_service_api</module>
         <module>knowledge_user_oauth</module>
     </modules>
