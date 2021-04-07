@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +30,7 @@ public class KnowledgeContentController {
      * @param knowledgeContentVO 加知识点内容请求参数VO
      * @return
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @ApiOperation(value = "新增知识点内容接口", notes = "新增知识点内容接口")
     @PostMapping("/addKnowledgeContent")
     public Result addKnowledgeContent(@RequestBody KnowledgeContentVO knowledgeContentVO){
@@ -39,25 +38,37 @@ public class KnowledgeContentController {
         return new Result().success("新增知识点内容成功！");
     }
 
-    //Value注解里面是虚拟路径
-    @Value("D:\\images")
-    private String uploadAbsolutePath;
+    /**
+     * 上传图片
+     * @param multipartFile
+     * @return
+     */
+    @PostMapping(value = "/upload/pic")
+    public Result updloadPic(@RequestParam("picFile") MultipartFile multipartFile){
+        String fileName = knowledgeContentService.upload(multipartFile,"pic");
+        return new Result().ok(fileName);
+    }
 
-    @RequestMapping(value = "/api/user/upload" ,method = RequestMethod.POST)
-    public Result updload(@RequestParam("userHeaderPicture") MultipartFile multipartFile){
-        Result jsonResult = null;
-        if(!multipartFile.isEmpty()){
-            try{
-                multipartFile.transferTo(new File(uploadAbsolutePath +"\\"+ multipartFile.getOriginalFilename()));
-                jsonResult = new Result().ok(multipartFile.getOriginalFilename());
-            }catch(Exception e){
-                e.printStackTrace();
-                jsonResult = new Result().error("网络异常");
-            }
-        }else{
-            jsonResult = new Result().error("上传失败");
-        }
-        return jsonResult;
+    /**
+     * 上传视频
+     * @param multipartFile
+     * @return
+     */
+    @PostMapping(value = "/upload/video")
+    public Result updloadVideo(@RequestParam("videoFile") MultipartFile multipartFile){
+        String fileName = knowledgeContentService.upload(multipartFile,"video");
+        return new Result().ok(fileName);
+    }
+
+    /**
+     * 上传音频
+     * @param multipartFile
+     * @return
+     */
+    @PostMapping(value = "/upload/mp3")
+    public Result updloadMp3(@RequestParam("mp3File") MultipartFile multipartFile){
+        String fileName = knowledgeContentService.upload(multipartFile,"mp3");
+        return new Result().ok(fileName);
     }
 
 }
