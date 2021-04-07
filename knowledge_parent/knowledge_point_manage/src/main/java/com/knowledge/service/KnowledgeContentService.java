@@ -12,7 +12,7 @@ public interface KnowledgeContentService extends IService<KnowledgeContentEntity
 
     /**
      * 新增知识点内容
-     * @param knowledgeContentVO 加知识点内容请求参数VO
+     * @param knowledgeContentVO 知识点内容请求参数VO
      * @return
      */
     void addKnowledgeContent(KnowledgeContentVO knowledgeContentVO);

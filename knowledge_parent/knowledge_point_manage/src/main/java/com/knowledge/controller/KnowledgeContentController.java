@@ -26,8 +26,21 @@ public class KnowledgeContentController {
     private KnowledgeContentService knowledgeContentService;
 
     /**
+     * 修改知识点内容
+     * @param knowledgeContentVO 修改知识点内容请求参数VO
+     * @return
+     */
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ApiOperation(value = "修改知识点内容接口", notes = "修改知识点内容接口")
+    @PostMapping("/updateKnowledgeContent")
+    public Result updateKnowledgeContent(@RequestBody KnowledgeContentVO knowledgeContentVO){
+        knowledgeContentService.addKnowledgeContent(knowledgeContentVO);
+        return new Result().success("修改知识点内容成功！");
+    }
+
+    /**
      * 新增知识点内容
-     * @param knowledgeContentVO 加知识点内容请求参数VO
+     * @param knowledgeContentVO 知识点内容请求参数VO
      * @return
      */
     //@PreAuthorize("hasRole('ROLE_ADMIN')")

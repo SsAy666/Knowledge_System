@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @ApiModel("添加知识点内容请求参数")
-public class KnowledgeContentVO {
+public class AddKnowledgeContentVO {
 
     @ApiModelProperty(value = "文字类型")
     private Integer textType;

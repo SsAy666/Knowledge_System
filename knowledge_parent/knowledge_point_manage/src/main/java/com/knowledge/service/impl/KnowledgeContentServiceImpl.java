@@ -8,12 +8,14 @@ import com.knowledge.service.KnowledgeContentService;
 import com.knowledge.utils.IDUtil;
 import com.knowledge.vo.KnowledgeContentVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.Date;
 
 /**
  * 知识点内容业务接口实现类
@@ -31,12 +33,19 @@ public class KnowledgeContentServiceImpl extends ServiceImpl<KnowledgeContentDao
 
     /**
      * 新增知识点内容
-     * @param knowledgeContentVO 加知识点内容请求参数VO
+     * @param knowledgeContentVO 知识点内容请求参数VO
      * @return
      */
     @Override
     public void addKnowledgeContent(KnowledgeContentVO knowledgeContentVO) {
-
+        KnowledgeContentEntity knowledgeContentEntity = new KnowledgeContentEntity();
+        BeanUtils.copyProperties(knowledgeContentVO,knowledgeContentEntity);
+        knowledgeContentEntity.setCreateTime(new Date());
+        // 保存知识点内容
+        if (!this.save(knowledgeContentEntity)) {
+            log.info("插入知识点内容信息失败");
+            throw new RenException("新增知识点内容失败！");
+        }
     }
 
     /**
