@@ -1,20 +1,22 @@
 package com.knowledge.controller;
 
+import com.knowledge.entity.KnowledgeContentEntity;
 import com.knowledge.service.KnowledgeContentService;
 import com.knowledge.utils.Result;
-import com.knowledge.vo.KnowledgeContentVO;
+import com.knowledge.vo.AddKnowledgeContentVO;
+import com.knowledge.vo.UpdateKnowledgeContentVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.util.List;
 
 /**
- * 管理员controller
+ * 知识点内容controller
  */
 @RestController
 @RequestMapping("/knowledge/content")
@@ -26,29 +28,55 @@ public class KnowledgeContentController {
     private KnowledgeContentService knowledgeContentService;
 
     /**
-     * 修改知识点内容
-     * @param knowledgeContentVO 修改知识点内容请求参数VO
-     * @return
-     */
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
-    @ApiOperation(value = "修改知识点内容接口", notes = "修改知识点内容接口")
-    @PostMapping("/updateKnowledgeContent")
-    public Result updateKnowledgeContent(@RequestBody KnowledgeContentVO knowledgeContentVO){
-        knowledgeContentService.addKnowledgeContent(knowledgeContentVO);
-        return new Result().success("修改知识点内容成功！");
-    }
-
-    /**
      * 新增知识点内容
-     * @param knowledgeContentVO 知识点内容请求参数VO
+     * @param addKnowledgeContentVO 知识点内容请求参数VO
      * @return
      */
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @ApiOperation(value = "新增知识点内容接口", notes = "新增知识点内容接口")
     @PostMapping("/addKnowledgeContent")
-    public Result addKnowledgeContent(@RequestBody KnowledgeContentVO knowledgeContentVO){
-        knowledgeContentService.addKnowledgeContent(knowledgeContentVO);
+    public Result addKnowledgeContent(@RequestBody AddKnowledgeContentVO addKnowledgeContentVO){
+        knowledgeContentService.addKnowledgeContent(addKnowledgeContentVO);
         return new Result().success("新增知识点内容成功！");
+    }
+
+    /**
+     * 修改知识点内容
+     * @param updateKnowledgeContentVO 修改知识点内容请求参数VO
+     * @return
+     */
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ApiOperation(value = "修改知识点内容接口", notes = "修改知识点内容接口")
+    @PostMapping("/updateKnowledgeContent")
+    public Result updateKnowledgeContent(@RequestBody UpdateKnowledgeContentVO updateKnowledgeContentVO){
+        knowledgeContentService.updateKnowledgeContent(updateKnowledgeContentVO);
+        return new Result().success("修改知识点内容成功！");
+    }
+
+    /**
+     * 查询知识点内容
+     * @param knowledgeContentEntity 知识点内容实体类
+     * @return
+     */
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ApiOperation(value = "查询知识点内容接口", notes = "查询知识点内容接口")
+    @PostMapping("/queryKnowledgeContent")
+    public Result queryKnowledgeContent(@RequestBody KnowledgeContentEntity knowledgeContentEntity){
+        List<KnowledgeContentEntity> knowledgeContentEntities = knowledgeContentService.queryKnowledgeContent(knowledgeContentEntity);
+        return new Result().ok(knowledgeContentEntities);
+    }
+
+    /**
+     * 删除知识点内容
+     * @param id 知识点内容ID
+     * @return
+     */
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ApiOperation(value = "删除知识点内容接口", notes = "删除知识点内容接口")
+    @GetMapping("/delKnowledgeContent")
+    public Result delKnowledgeContent(@ApiParam(value = "知识点内容ID", required = true) @RequestParam("id") Integer id){
+        knowledgeContentService.delKnowledgeContent(id);
+        return new Result().success("删除知识点内容成功！");
     }
 
     /**
