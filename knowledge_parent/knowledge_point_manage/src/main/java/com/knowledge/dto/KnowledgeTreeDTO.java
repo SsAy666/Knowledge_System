@@ -1,20 +1,17 @@
-package com.knowledge.entity;
+package com.knowledge.dto;
 
-import com.baomidou.mybatisplus.annotation.*;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
-
-import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
- * 知识点树实体类
+ * 查询知识点树接口响应参数
  */
 @Data
-@TableName("tb_knowledge_node_tree")
-public class KnowledgeTreeEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+@ApiModel("查询知识点树接口响应参数")
+public class KnowledgeTreeDTO {
 
-    @TableId(type= IdType.AUTO)
     private Integer id;
 
     // 分支类型
@@ -30,10 +27,11 @@ public class KnowledgeTreeEntity implements Serializable {
     private Integer orderNum;
 
     // 创建时间
-    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
     // 更新时间
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
+
+    // 子菜单信息
+    private List<KnowledgeTreeDTO> children;
 }

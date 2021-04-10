@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.knowledge.dao.KnowledgeTreeDao">
+
+    <resultMap id="KnowledgeTreeList" type="com.knowledge.dto.KnowledgeTreeDTO">
+        <id column="id" property="id"></id>
+        <result column="branch_type" property="branchType"></result>
+        <result column="branch_name" property="branchName"></result>
+        <result column="parent_id" property="parentId"></result>
+        <result column="order_num" property="orderNum"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <collection property="children" ofType="com.knowledge.entity.KnowledgeTreeEntity" column="id" select="getKnowledgeTreeChildren">
+
+        </collection>
+    </resultMap>
+
+    <select id="getKnowledgeTreeList" resultMap="KnowledgeTreeList">
+      select distinct
+        id,
+        branch_type,
+        branch_name,
+        parent_id,
+        order_num,
+        create_time,
+        update_time
+       FROM tb_knowledge_node_tree
+       where  parent_id is null or parent_id=0
+       order  by order_num asc
+    </select>
+
+    <select id="getKnowledgeTreeChildren" resultMap="KnowledgeTreeList">
+      select distinct
+        id,
+        branch_type,
+        branch_name,
+        parent_id,
+        order_num,
+        create_time,
+        update_time
+       FROM tb_knowledge_node_tree
+       where parent_id=#{id}
+       order by order_num asc
+    </select>
+
+    <select id="getMaxOrderNum" resultType="int">
+        SELECT MAX(order_num)
+        FROM tb_knowledge_node_tree
+        GROUP BY parent_id HAVING parent_id=#{parentId}
+    </select>
+
+</mapper>

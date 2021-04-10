@@ -3,7 +3,9 @@ package com.knowledge.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.knowledge.dao.KnowledgeContentDao;
+import com.knowledge.dao.KnowledgeContentTreeDao;
 import com.knowledge.entity.KnowledgeContentEntity;
+import com.knowledge.entity.KnowledgeContentTreeEntity;
 import com.knowledge.exception.RenException;
 import com.knowledge.service.KnowledgeContentService;
 import com.knowledge.utils.IDUtil;
@@ -17,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +35,9 @@ public class KnowledgeContentServiceImpl extends ServiceImpl<KnowledgeContentDao
     @Autowired
     private KnowledgeContentDao knowledgeContentDao;
 
+    @Autowired
+    private KnowledgeContentTreeDao knowledgeContentTreeDao;
+
     /**
      * 新增知识点内容
      * @param addKnowledgeContentVO 知识点内容请求参数VO
@@ -47,6 +51,14 @@ public class KnowledgeContentServiceImpl extends ServiceImpl<KnowledgeContentDao
         if (!this.save(knowledgeContentEntity)) {
             log.info("插入知识点内容信息失败");
             throw new RenException("新增知识点内容失败！");
+        }
+        // 保存知识点内容-知识点树
+        KnowledgeContentTreeEntity knowledgeContentTreeEntity = new KnowledgeContentTreeEntity();
+        knowledgeContentTreeEntity.setKnowledgeTreeId(addKnowledgeContentVO.getTreeId());
+        knowledgeContentTreeEntity.setKnowledgeContentId(knowledgeContentEntity.getId());
+        if (knowledgeContentTreeDao.insert(knowledgeContentTreeEntity) == 0) {
+            log.info("插入知识点内容-知识点树信息失败");
+            throw new RenException("新增知识点内容！");
         }
     }
 
@@ -84,7 +96,12 @@ public class KnowledgeContentServiceImpl extends ServiceImpl<KnowledgeContentDao
      */
     @Override
     public void delKnowledgeContent(Integer id) {
+        // 删除知识点内容
         this.removeById(id);
+        // 删除知识点内容-知识点树
+        QueryWrapper<KnowledgeContentTreeEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("knowledge_content_id",id);
+        knowledgeContentTreeDao.delete(wrapper);
     }
 
     /**
