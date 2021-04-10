@@ -1,19 +1,17 @@
 package com.knowledge.controller;
 
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 
 /**
- * @author CuiZheng
- * @title: AutoTestController
- * @description: 自动化测试
- * @date 2020/10/16 17:57
+ * 知识点树controller
  */
 @RestController
-@RequestMapping()
-@CrossOrigin
+@RequestMapping("/knowledge/tree")
 @Slf4j
+@Api(tags = "知识树点管理接口")
 public class KnowledgeTreeController {
 
 }
