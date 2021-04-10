@@ -10,7 +10,7 @@ import java.util.Date;
  * 知识点树实体类
  */
 @Data
-@TableName("tb_knowledge_node_tree")
+@TableName("tb_knowledge_tree")
 public class KnowledgeTreeEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
