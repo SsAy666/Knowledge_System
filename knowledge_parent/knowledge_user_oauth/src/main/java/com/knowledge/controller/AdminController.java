@@ -58,7 +58,6 @@ public class AdminController {
      * @param userEntity 用户参数信息
      * @return
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ApiOperation(value = "管理员查询用户接口", notes = "管理员查询用户接口")
     @PostMapping("/queryUser")
     public Result queryUser(@RequestBody UserEntity userEntity){

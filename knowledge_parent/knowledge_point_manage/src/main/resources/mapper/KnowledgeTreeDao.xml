@@ -25,7 +25,7 @@
         order_num,
         create_time,
         update_time
-       FROM tb_knowledge_node_tree
+       FROM tb_knowledge_tree
        where  parent_id is null or parent_id=0
        order  by order_num asc
     </select>
@@ -39,14 +39,14 @@
         order_num,
         create_time,
         update_time
-       FROM tb_knowledge_node_tree
+       FROM tb_knowledge_tree
        where parent_id=#{id}
        order by order_num asc
     </select>
 
     <select id="getMaxOrderNum" resultType="int">
         SELECT MAX(order_num)
-        FROM tb_knowledge_node_tree
+        FROM tb_knowledge_tree
         GROUP BY parent_id HAVING parent_id=#{parentId}
     </select>
 
