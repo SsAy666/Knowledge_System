@@ -1,5 +1,8 @@
 server:
   port: 3399
+spring:
+  profiles:
+    active: pro
 eureka:
   instance:
     hostname: eureka-server
