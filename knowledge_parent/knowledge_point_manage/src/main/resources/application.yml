@@ -2,7 +2,7 @@ server:
   port: 3397
 spring:
   profiles:
-    active: pro
+    active: dev
   application:
     name: knowledge-point-manage
   servlet:

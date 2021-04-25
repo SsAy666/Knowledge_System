@@ -6,7 +6,7 @@ jwt:
   secret: secret       # 用于生成token的密钥
 spring:
   profiles:
-    active: pro
+    active: dev
   application:
     name: knowledge-user
   main:
