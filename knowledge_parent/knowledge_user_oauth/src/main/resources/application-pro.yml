@@ -1,6 +1,3 @@
-prop:
-  upload-folder: D:\files\
-
 spring:
   datasource:
     druid:
