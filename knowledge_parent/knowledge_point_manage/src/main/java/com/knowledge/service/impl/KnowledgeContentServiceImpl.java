@@ -178,4 +178,14 @@ public class KnowledgeContentServiceImpl extends ServiceImpl<KnowledgeContentDao
     public KnowledgeContentEntity queryKnowledgeContentById(Integer id) {
         return this.queryKnowledgeContentById(id);
     }
+
+    /**
+     * 查询历史记录
+     * @return
+     */
+    @Override
+    public List<KnowledgeHistoryRecordEntity> queryHistoryRecords() {
+        QueryWrapper<KnowledgeHistoryRecordEntity> wrapper = new QueryWrapper<>();
+        return knowledgeHistoryRecordDao.selectList(wrapper);
+    }
 }

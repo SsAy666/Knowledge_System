@@ -30,6 +30,5 @@ public class KnowledgeHistoryRecordEntity implements Serializable {
     private String operateAfterContent;
 
     // 操作时间
-    @TableField(fill = FieldFill.INSERT)
     private Date operateTime;
 }

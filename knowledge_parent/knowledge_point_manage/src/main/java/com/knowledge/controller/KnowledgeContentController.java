@@ -2,6 +2,7 @@ package com.knowledge.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.knowledge.entity.KnowledgeContentEntity;
+import com.knowledge.entity.KnowledgeHistoryRecordEntity;
 import com.knowledge.enums.OperateStyleEnum;
 import com.knowledge.service.KnowledgeContentService;
 import com.knowledge.utils.HttpContextUtils;
@@ -95,6 +96,17 @@ public class KnowledgeContentController {
         // 将操作插入历史记录表
         knowledgeContentService.insertHistoryRecord(HttpContextUtils.getUsername(), OperateStyleEnum.DELETE.getCode(), JSON.toJSONString(knowledgeContentEntity), null);
         return new Result().success("删除知识点内容成功！");
+    }
+
+    /**
+     * 查询历史记录
+     * @return
+     */
+    @ApiOperation(value = "查询历史记录接口", notes = "查询历史记录接口")
+    @GetMapping("/queryHistoryRecords")
+    public Result queryHistoryRecords(){
+        List<KnowledgeHistoryRecordEntity> knowledgeHistoryRecords = knowledgeContentService.queryHistoryRecords();
+        return new Result().ok(knowledgeHistoryRecords);
     }
 
     /**

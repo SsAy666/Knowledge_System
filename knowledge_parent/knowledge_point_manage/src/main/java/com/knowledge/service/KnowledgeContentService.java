@@ -2,6 +2,7 @@ package com.knowledge.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.knowledge.entity.KnowledgeContentEntity;
+import com.knowledge.entity.KnowledgeHistoryRecordEntity;
 import com.knowledge.vo.AddKnowledgeContentVO;
 import com.knowledge.vo.UpdateKnowledgeContentVO;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,4 +63,10 @@ public interface KnowledgeContentService extends IService<KnowledgeContentEntity
      * @return
      */
     KnowledgeContentEntity queryKnowledgeContentById(Integer id);
+
+    /**
+     * 查询历史记录
+     * @return
+     */
+    List<KnowledgeHistoryRecordEntity> queryHistoryRecords();
 }
