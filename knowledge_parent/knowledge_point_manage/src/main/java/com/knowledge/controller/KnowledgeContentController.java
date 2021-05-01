@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 知识点内容controller
@@ -140,6 +141,18 @@ public class KnowledgeContentController {
     public Result updloadMp3(@RequestParam("mp3File") MultipartFile multipartFile){
         String fileName = knowledgeContentService.upload(multipartFile,"mp3");
         return new Result().ok(fileName);
+    }
+
+    /**
+     * 下载文件
+     * @param map
+     * @return
+     */
+    @PostMapping("/download")
+    public Result download(@RequestBody Map<String,String> map) {
+        String fileName = map.get("fileName");
+        knowledgeContentService.download(fileName);
+        return new Result().ok("下载成功");
     }
 
 }

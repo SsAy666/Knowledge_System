@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -125,6 +127,9 @@ public class KnowledgeContentServiceImpl extends ServiceImpl<KnowledgeContentDao
         }
         // 获取文件后缀
         String suffix = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
+        if ("pic".equals(type) && !"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
+            throw new RenException("请选择jpg,jpeg,gif,png格式的图片");
+        }
         // 文件目录位置
         String saveMkdir = UPLOAD_FOLDER_PATH + type;
         // 设置文件存储路径
@@ -138,7 +143,7 @@ public class KnowledgeContentServiceImpl extends ServiceImpl<KnowledgeContentDao
         // 将图片保存指定目录
         String savePic = saveMkdir + "\\"+ filename;
         //数据库保存位置
-        String saveDB = type + "\\" + filename;
+        String saveDB = type + "-" + filename;
         // 上传文件
         try {
             multipartFile.transferTo(new File(savePic));
@@ -176,7 +181,7 @@ public class KnowledgeContentServiceImpl extends ServiceImpl<KnowledgeContentDao
      */
     @Override
     public KnowledgeContentEntity queryKnowledgeContentById(Integer id) {
-        return this.queryKnowledgeContentById(id);
+        return this.getById(id);
     }
 
     /**
@@ -187,5 +192,43 @@ public class KnowledgeContentServiceImpl extends ServiceImpl<KnowledgeContentDao
     public List<KnowledgeHistoryRecordEntity> queryHistoryRecords() {
         QueryWrapper<KnowledgeHistoryRecordEntity> wrapper = new QueryWrapper<>();
         return knowledgeHistoryRecordDao.selectList(wrapper);
+    }
+
+    /**
+     * 下载文件
+     * @param fileName 文件名称
+     */
+    @Override
+    public void download(String fileName) {
+        String[] fileArr = fileName.split("-");
+        String pathName = UPLOAD_FOLDER_PATH + fileArr[0] + fileArr[1];
+        try {
+            // 设置图片存储路径
+            String savePath = "D:\\download\\file\\";
+            File savePathFile = new File(savePath);
+            if (!savePathFile.exists()) {
+                //若不存在该目录，则创建目录
+                savePathFile.mkdirs();
+            }
+            // 将图片读入代码块
+            FileInputStream fis = new FileInputStream(pathName);
+            // 将图片从代码块中写出到硬盘
+            String saveName = savePath + fileName;
+            FileOutputStream fos = new FileOutputStream(saveName);
+            // 长度多长,一次就读多少个
+            byte[] bytes = new byte[1024];
+            // 定义变量
+            int len;
+            // 读数据
+            while((len=fis.read(bytes))!=-1) {
+                // 写数据
+                fos.write(bytes,0,len);
+            }
+            // 关流
+            fos.close();
+            fis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

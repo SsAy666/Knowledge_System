@@ -69,4 +69,10 @@ public interface KnowledgeContentService extends IService<KnowledgeContentEntity
      * @return
      */
     List<KnowledgeHistoryRecordEntity> queryHistoryRecords();
+
+    /**
+     * 下载文件
+     * @param fileName 文件名称
+     */
+    void download(String fileName);
 }
