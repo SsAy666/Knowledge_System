@@ -1,7 +1,10 @@
 package com.knowledge.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.knowledge.entity.KnowledgeContentEntity;
+import com.knowledge.enums.OperateStyleEnum;
 import com.knowledge.service.KnowledgeContentService;
+import com.knowledge.utils.HttpContextUtils;
 import com.knowledge.utils.Result;
 import com.knowledge.vo.AddKnowledgeContentVO;
 import com.knowledge.vo.UpdateKnowledgeContentVO;
@@ -36,7 +39,10 @@ public class KnowledgeContentController {
     @ApiOperation(value = "新增知识点内容接口", notes = "新增知识点内容接口")
     @PostMapping("/addKnowledgeContent")
     public Result addKnowledgeContent(@RequestBody AddKnowledgeContentVO addKnowledgeContentVO){
-        knowledgeContentService.addKnowledgeContent(addKnowledgeContentVO);
+        // 进行添加操作
+        KnowledgeContentEntity knowledgeContentEntity = knowledgeContentService.addKnowledgeContent(addKnowledgeContentVO);
+        // 将操作插入历史记录表
+        knowledgeContentService.insertHistoryRecord(HttpContextUtils.getUsername(), OperateStyleEnum.ADD.getCode(), null, JSON.toJSONString(knowledgeContentEntity));
         return new Result().success("新增知识点内容成功！");
     }
 
@@ -49,7 +55,14 @@ public class KnowledgeContentController {
     @ApiOperation(value = "修改知识点内容接口", notes = "修改知识点内容接口")
     @PostMapping("/updateKnowledgeContent")
     public Result updateKnowledgeContent(@RequestBody UpdateKnowledgeContentVO updateKnowledgeContentVO){
+        // 根据ID查询更新操作前的记录
+        KnowledgeContentEntity updateBeforeInfo = knowledgeContentService.queryKnowledgeContentById(updateKnowledgeContentVO.getId());
+        // 进行更新操作
         knowledgeContentService.updateKnowledgeContent(updateKnowledgeContentVO);
+        // 根据ID查询更新操作前的记录
+        KnowledgeContentEntity updateAfterInfo = knowledgeContentService.queryKnowledgeContentById(updateKnowledgeContentVO.getId());
+        // 将操作插入历史记录表
+        knowledgeContentService.insertHistoryRecord(HttpContextUtils.getUsername(), OperateStyleEnum.EDIT.getCode(), JSON.toJSONString(updateBeforeInfo), JSON.toJSONString(updateAfterInfo));
         return new Result().success("修改知识点内容成功！");
     }
 
@@ -75,7 +88,12 @@ public class KnowledgeContentController {
     @ApiOperation(value = "删除知识点内容接口", notes = "删除知识点内容接口")
     @GetMapping("/delKnowledgeContent")
     public Result delKnowledgeContent(@ApiParam(value = "知识点内容ID", required = true) @RequestParam("id") Integer id){
+        // 根据ID查询删除操作前的记录
+        KnowledgeContentEntity knowledgeContentEntity = knowledgeContentService.queryKnowledgeContentById(id);
+        // 进行删除操作
         knowledgeContentService.delKnowledgeContent(id);
+        // 将操作插入历史记录表
+        knowledgeContentService.insertHistoryRecord(HttpContextUtils.getUsername(), OperateStyleEnum.DELETE.getCode(), JSON.toJSONString(knowledgeContentEntity), null);
         return new Result().success("删除知识点内容成功！");
     }
 

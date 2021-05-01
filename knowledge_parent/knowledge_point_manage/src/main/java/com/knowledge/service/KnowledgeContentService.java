@@ -18,7 +18,7 @@ public interface KnowledgeContentService extends IService<KnowledgeContentEntity
      * @param addKnowledgeContentVO 知识点内容请求参数VO
      * @return
      */
-    void addKnowledgeContent(AddKnowledgeContentVO addKnowledgeContentVO);
+    KnowledgeContentEntity addKnowledgeContent(AddKnowledgeContentVO addKnowledgeContentVO);
 
     /**
      * 修改知识点内容
@@ -48,4 +48,18 @@ public interface KnowledgeContentService extends IService<KnowledgeContentEntity
      * @return
      */
     String upload(MultipartFile multipartFile, String type);
+
+    /**
+     * 插入历史记录管理
+     * @param operator      操作人
+     * @param operateStyle  操作方式
+     */
+    void insertHistoryRecord(String operator, Integer operateStyle, String operateBeforeContent, String operateAfterContent);
+
+    /**
+     * 根据ID查询知识点内容
+     * @param id
+     * @return
+     */
+    KnowledgeContentEntity queryKnowledgeContentById(Integer id);
 }

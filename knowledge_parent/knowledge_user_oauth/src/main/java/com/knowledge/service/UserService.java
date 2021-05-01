@@ -3,6 +3,7 @@ package com.knowledge.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.knowledge.entity.UserEntity;
 import com.knowledge.vo.RegisterUserVO;
+import com.knowledge.vo.UpdatePwdVO;
 
 /**
  * 用户业务接口
@@ -28,4 +29,11 @@ public interface UserService extends IService<UserEntity> {
      * @return
      */
     void registerUser(RegisterUserVO registerUserVO);
+
+    /**
+     * 用户修改密码
+     * @param updatePwdVO 用户修改密码信息VO
+     * @return
+     */
+    void updatePwd(UpdatePwdVO updatePwdVO);
 }

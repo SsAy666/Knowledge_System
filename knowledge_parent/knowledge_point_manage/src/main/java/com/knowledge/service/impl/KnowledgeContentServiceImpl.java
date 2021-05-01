@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.knowledge.dao.KnowledgeContentDao;
 import com.knowledge.dao.KnowledgeContentTreeDao;
+import com.knowledge.dao.KnowledgeHistoryRecordDao;
 import com.knowledge.entity.KnowledgeContentEntity;
 import com.knowledge.entity.KnowledgeContentTreeEntity;
+import com.knowledge.entity.KnowledgeHistoryRecordEntity;
 import com.knowledge.exception.RenException;
 import com.knowledge.service.KnowledgeContentService;
 import com.knowledge.utils.IDUtil;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,13 +41,16 @@ public class KnowledgeContentServiceImpl extends ServiceImpl<KnowledgeContentDao
     @Autowired
     private KnowledgeContentTreeDao knowledgeContentTreeDao;
 
+    @Autowired
+    private KnowledgeHistoryRecordDao knowledgeHistoryRecordDao;
+
     /**
      * 新增知识点内容
      * @param addKnowledgeContentVO 知识点内容请求参数VO
      * @return
      */
     @Override
-    public void addKnowledgeContent(AddKnowledgeContentVO addKnowledgeContentVO) {
+    public KnowledgeContentEntity addKnowledgeContent(AddKnowledgeContentVO addKnowledgeContentVO) {
         KnowledgeContentEntity knowledgeContentEntity = new KnowledgeContentEntity();
         BeanUtils.copyProperties(addKnowledgeContentVO,knowledgeContentEntity);
         // 保存知识点内容
@@ -60,6 +66,7 @@ public class KnowledgeContentServiceImpl extends ServiceImpl<KnowledgeContentDao
             log.info("插入知识点内容-知识点树信息失败");
             throw new RenException("新增知识点内容！");
         }
+        return knowledgeContentEntity;
     }
 
     /**
@@ -140,5 +147,35 @@ public class KnowledgeContentServiceImpl extends ServiceImpl<KnowledgeContentDao
             throw new RenException("上传失败！");
         }
         return saveDB;
+    }
+
+    /**
+     * 插入历史记录
+     * @param operator      操作人
+     * @param operateStyle  操作方式
+     */
+    @Override
+    public void insertHistoryRecord(String operator, Integer operateStyle, String operateBeforeContent, String operateAfterContent) {
+        KnowledgeHistoryRecordEntity historyRecordEntity = new KnowledgeHistoryRecordEntity();
+        historyRecordEntity.setOperateTime(new Date());
+        historyRecordEntity.setOperator(operator);
+        historyRecordEntity.setOperateStyle(operateStyle);
+        historyRecordEntity.setOperateBeforeContent(operateBeforeContent);
+        historyRecordEntity.setOperateAfterContent(operateAfterContent);
+        // 插入历史记录
+        if (knowledgeHistoryRecordDao.insert(historyRecordEntity) != 1) {
+            log.info("插入历史记录失败");
+            throw new RenException("插入历史记录失败！");
+        }
+    }
+
+    /**
+     * 根据ID查询知识点内容
+     * @param id
+     * @return
+     */
+    @Override
+    public KnowledgeContentEntity queryKnowledgeContentById(Integer id) {
+        return this.queryKnowledgeContentById(id);
     }
 }

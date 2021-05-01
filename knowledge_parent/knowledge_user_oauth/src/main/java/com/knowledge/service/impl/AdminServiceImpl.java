@@ -53,8 +53,6 @@ public class AdminServiceImpl extends ServiceImpl<UserDao, UserEntity> implement
             throw new RenException("该用户名已存在，请重新输入！");
         }
         UserEntity userEntity = new UserEntity();
-//        userEntity.setCreateTime(new Date());
-//        userEntity.setUpdateTime(new Date());
         BeanUtils.copyProperties(addUserVO,userEntity);
         // 设置默认加密密码为：123456
         String encode = bCryptPasswordEncoder.encode("123456");

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 知识点历史记录实体类
@@ -30,5 +31,5 @@ public class KnowledgeHistoryRecordEntity implements Serializable {
 
     // 操作时间
     @TableField(fill = FieldFill.INSERT)
-    private String operateTime;
+    private Date operateTime;
 }
