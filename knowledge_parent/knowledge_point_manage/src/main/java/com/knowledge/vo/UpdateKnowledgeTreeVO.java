@@ -16,8 +16,4 @@ public class UpdateKnowledgeTreeVO extends AddKnowledgeTreeVO {
     @ApiModelProperty(value = "id", required = true)
     @NotNull(message = "ID不能为空")
     private Integer id;
-
-    @ApiModelProperty(value = "createTime", required = true)
-    @NotNull(message = "创建时间不能为空")
-    private Date createTime;
 }

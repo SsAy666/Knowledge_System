@@ -187,13 +187,11 @@
         <root level="info">
             <appender-ref ref="CONSOLE" />
         </root>
-<!--        <logger name="com.rtmap.dao" level="debug"/>-->
     </springProfile>
     <springProfile name="test">  <!-- 设置指定包下的级别，这样的话  就可以在控制台输出sql语句了 -->
         <root level="info">
             <appender-ref ref="CONSOLE" />
         </root>
-        <!--        <logger name="com.rtmap.dao" level="debug"/>-->
     </springProfile>
     <springProfile name="pro">
         <root level="info">

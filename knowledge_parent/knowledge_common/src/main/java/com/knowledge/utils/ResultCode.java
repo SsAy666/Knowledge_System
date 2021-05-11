@@ -1,9 +1,7 @@
 package com.knowledge.utils;
 
 /**
- * @author linzishan@rtmap.com
- * @desc
- * @date 2021/3/31 16:12
+ *  返回结果状态码
  */
 public enum ResultCode {
     /* 成功 */
